@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout></PatternLayout>
+
+        </Console>
+        <!-- Info Log File Appender -->
+        <RollingFile name="RollingFile" filename="Adidas.log"
+                     filePattern="logs/$${date:yyyy-MM}/Adidas-%d{MM-dd-yyyy}-%i.log.gz">
+            <!-- Matches only INFO level -->
+            <LevelRangeFilter minLevel="INFO" maxLevel="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout></PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- Error Log File Appender -->
+        <RollingFile name="RollingErrorFile" filename="logs/Adidas.log"
+                     filePattern="logs/$${date:yyyy-MM}/Adidas-%d{MM-dd-yyyy}-%i.log.gz">
+            <!-- Matches only ERROR level -->
+            <LevelRangeFilter minLevel="FATAL" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout></PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.siemens.its.*" level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Logger name="com.siemens.its.*" level="ERROR">
+            <AppenderRef ref="RollingErrorFile" />
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="RollingErrorFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
